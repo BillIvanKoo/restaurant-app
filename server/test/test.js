@@ -20,6 +20,7 @@ describe('User CRUD testing', ()=>{
     })
 
     newUser.save((err, user)=>{
+      // console.log(user);
       newUser_id = user._id
       done()
     })
@@ -49,10 +50,16 @@ describe('User CRUD testing', ()=>{
     it('should add a user', (done)=>{
       chai.request(server)
       .post('/users')
+      .send({
+        username: 'bambang',
+        password: 'bam',
+        email: 'bam@gmail.com',
+        role: 'admin'
+      })
       .end((err, result)=>{
-        console.log('post', result.status);
+        console.log('post', result.body);
         // result.should.have.status(200)
-        // result.body.should.be.a('object')
+        result.body.should.be.a('object')
         done()
       })
     })

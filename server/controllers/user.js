@@ -13,8 +13,7 @@ controllers.getAll = (req,res,next)=>{
 }
 
 controllers.createData = (req,res, next)=>{
-
-  let newUser = User({
+  var newUser = User({
     username: req.body.username,
     password: passwordHash.generate(req.body.password),
     email: req.body.email,
