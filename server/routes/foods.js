@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const controllers = require('../controllers/food');
+
+/* GET users listing. */
+router.get('/', controllers.getAll); // getAll
+router.post('/', controllers.createData); // create
+router.patch('/:id', controllers.update); // update
+router.delete('/:id', controllers.delete); // create
 
 module.exports = router;

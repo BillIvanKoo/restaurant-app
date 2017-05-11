@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-// var foods = require('./routes/foods');
+var foods = require('./routes/foods');
 
 //connection to MongoDB
 const mongoose = require('mongoose');
@@ -47,6 +47,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/foods', foods);
+
 // app.use('/foods', foods)
 
 module.exports = app;
