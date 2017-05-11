@@ -47,16 +47,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-<<<<<<< HEAD
-<<<<<<< HEAD
 app.use('/foods', foods)
-=======
-app.use('/foods', foods);
-
-// app.use('/foods', foods)
->>>>>>> 0ce5ae61f1c728615787f086ccbf93475f97c9b9
-=======
-app.use('/foods', foods)
->>>>>>> 6369763e3690b7859ed92aa2220cfe01ee87f89c
 
 module.exports = app;
