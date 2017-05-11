@@ -19,9 +19,6 @@ const db_config = {
   test: 'mongodb://localhost/eatlah-test'
 }
 
-
-
-
 var app = express();
 const app_env = app.settings.env
 console.log(app_env);
