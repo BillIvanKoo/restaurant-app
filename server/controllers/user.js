@@ -45,7 +45,7 @@ controllers.update = (req,res,next)=>{
 }
 
 controllers.delete = (req,res,next)=>{
-  User.findByIdAndRemove(req.body.id, (err, data)=>{
+  User.findByIdAndRemove(req.params.id, (err, data)=>{
     if(err) throw err
     res.send({message: 'has been delete'})
   })

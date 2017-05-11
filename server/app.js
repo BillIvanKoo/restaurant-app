@@ -4,13 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// const passport = require('passport');
-// const localStrategy = require('passport-local');
-// const cors = require('cors');
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-// var foods = require('./routes/foods');
+var foods = require('./routes/foods');
 
 //connection to MongoDB
 const mongoose = require('mongoose');
@@ -29,8 +29,8 @@ mongoose.connect(db_config[app_env],(err, res)=>{
   console.log(`Connected to Database ${db_config[app_env]}`);
 });
 
-// app.use(cors())
-// app.use(passport.initialize());
+app.use(cors())
+app.use(passport.initialize());
 
 
 // view engine setup
@@ -47,6 +47,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-// app.use('/foods', foods)
+app.use('/foods', foods)
 
 module.exports = app;
