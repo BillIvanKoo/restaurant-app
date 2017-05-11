@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const cors = require('cors');
+const passwordHash = require('password-hash');
+
+const User = require('./models/user');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -18,6 +21,19 @@ const db_config = {
   development: 'mongodb://localhost/eatlah',
   test: 'mongodb://localhost/eatlah-test'
 }
+
+passport.use(new localStrategy(
+  function(username, password, done){
+  User.findOne({username : username}, (err, user)=>{
+    if(!user){
+      return done(null, { message:'Username Not Found You Must Register' })
+    }
+    if(!passwordHash.verify(password, user.password)){
+      return done(null, { message: 'Your Password is wrong' })
+    }
+    return done(null, user)
+  })
+}))
 
 var app = express();
 const app_env = app.settings.env

@@ -1,5 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const Food = require('../models/food');
+const helper = require('../helper/cronjob');
+
 
 let controllers = {}
 
@@ -16,12 +18,16 @@ controllers.createData = (req,res, next)=>{
     name: req.body.name,
     description: req.body.desc,
     price: req.body.price,
-    vote_up: req.body.vote_up
   })
 
   newFood.save((err, result)=>{
     if(err) throw err;
-    res.send(result)
+
+    Food.findOne({ name : req.body.name}, (err, data)=>{
+      if(err) throw err
+      helper(data)
+      res.send(data)
+    })
   })
 }
 
