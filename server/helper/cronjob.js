@@ -2,6 +2,7 @@ var CronJob = require('cron').CronJob;
 require('dotenv').config({path: '../.env'})
 const User = require('../models/user');
 
+const nodemailer = require('nodemailer');
 
 var kue = require('kue'),
     queue = kue.createQueue();
@@ -44,16 +45,43 @@ let helper = (params)=>{
 
 function email(paramsJob, done) {
   console.log('di email -- ',paramsJob);
-  var send = require('gmail-send')({
-    user : 'durotar.resis2@gmail.com',
-    pass : 'lbnnwbaxdraeeyiv',
-    to : paramsJob.to,
 
-    subject : paramsJob.subject,
-    text : paramsJob.message,
-  })();
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+      service : 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASS
+      }
+  });
 
-  // done()
+  transporter.verify(function(error, success) { // test Verifikasi
+     if (error) {
+          console.log(error);
+     } else {
+          console.log('Server is ready to take our messages');
+     }
+  });
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+      from: '"zanEat" <durotar.resis2@gmail.com>', // sender address
+      to: paramsJob.to, // list of receivers
+      subject: paramsJob.subject, // Subject line
+      text: paramsJob.message, // plain text body
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      return console.log('Message %s sent: %s', info.messageId, info.response);
+  });
+  done()
 }
 
 module.exports = helper;

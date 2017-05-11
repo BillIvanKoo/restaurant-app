@@ -6,6 +6,7 @@ const foodSchema = new Schema({
   name: String,
   description: String,
   price: String,
+  category: String,
   created_at : { type: Date, required: false, default: Date.now},
   vote_up: { type: Number, required: false, default: 0}
 })
