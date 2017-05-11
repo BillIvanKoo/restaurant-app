@@ -9,6 +9,7 @@ router.get('/', controllers.getAll); // getAll
 
 router.post('/', controllers.createData); // create
 router.put('/:id', controllers.update); // update
+
 router.delete('/:id', controllers.delete); // create
 
 module.exports = router;

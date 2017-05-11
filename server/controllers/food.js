@@ -4,9 +4,9 @@ const Food = require('../models/food');
 let controllers = {}
 
 controllers.getAll = (req,res,next)=>{
-  Food.find({}, (err, users)=>{
+  Food.find({}, (err, foods)=>{
     if(err) throw err
-    res.send(users)
+    res.send(foods)
   })
 }
 
