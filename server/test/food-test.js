@@ -6,20 +6,22 @@ const Food = require('../models/food');
 const should = chai.should()
 const server = require('../app')
 
-describe('Food CRUD testing', ()=>{
+describe('testing CRUD for Food', ()=>{
   var newFood_id = ''
+
+  //masukin data dummy
   beforeEach((done)=>{
     var newFood = new Food({
-      title: 'Makanan',
-      describe: 'So Good',
-      urlImg: 'gam.com/1.jpg',
-      createdAt : new Date(),
-      updatedAt : new Date()
+      menu: 'Eat',
+      name: 'Mozarella with Beef Bacon',
+      description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
+      price: '200.000',
+      vote_up: 0
     })
 
-    newFood.save((err, Food)=>{
-      // console.log(Food);
-      newFood_id = Food._id
+    newFood.save((err, food)=>{
+      // console.log(food);
+      newFood_id = food._id
       done()
     })
   })
@@ -30,71 +32,65 @@ describe('Food CRUD testing', ()=>{
     })
   })
 
-  describe('Get - Food', ()=>{
-    it('Should get Food', (done)=>{
+  //get data all Food
+  describe('Get - all Foods', ()=>{
+    it('should get all food', (done)=>{
       chai.request(server)
       .get('/foods')
-      .end((err,result)=>{
+      .end((err, result)=>{
         result.should.have.status(200)
         result.body.should.be.a('array')
-        result.body[0].title.should.equal('Makanan')
+        result.body.length.should.equal(1)
+
         done()
       })
     })
   })
 
-  //with method POST
+  //create data with POST
   describe('Post - create Food', ()=>{
-    it('should add a Food', (done)=>{
+    it('should add a food', (done)=>{
       chai.request(server)
       .post('/foods')
-      .send({
-        title: 'Makanan',
-        describe: 'So Good',
-        urlImg: 'gam.com/1.jpg',
-        createdAt : new Date(),
-        updatedAt : new Date()
-      })
       .end((err, result)=>{
-        console.log('post', result.body);
-        // result.should.have.status(200)
+        result.should.have.status(200)
         result.body.should.be.a('object')
+
         done()
       })
     })
   })
 
-  //describe with method PUT
-  describe('PUT - edit Food', () => {
-    it('should update specific field in the Food', (done) => {
+  //Update data Food
+  describe('PUT - create Food', ()=>{
+    it('should update a food', (done)=>{
       chai.request(server)
-      .patch('/foods/'+newFood_id)
+      .put('/foods/'+newFood_id)
       .send({
-        title: "please not 500"      })
-      .end( (err, result) => {
+        name: 'Keju berlapis Mozarella'
+      })
+      .end((err, result)=>{
         result.should.have.status(200)
-        result.body.should.be.an('object')
-        result.body.title.should.equal("please not 500")
+        result.body.should.be.a('object')
+        result.body.message.should.not.equal('not been update')
+
         done()
       })
+    })
+  })
 
-    });
-  });
-
-  //describe for delete
-  describe('DELETE - delete Food', () => {
-    it('should delete a Food', (done) => {
+  //delete data Food
+  describe('delete - Food', ()=>{
+    it('should remove a food', (done)=>{
       chai.request(server)
-      .delete('/foods/' + newFood_id)
-      .end( (err, result) => {
-        // console.log('delete***', result);
+      .delete('/foods/'+newFood_id)
+      .end((err, result)=>{
         result.should.have.status(200)
-        result.body.should.be.an('object')
-        result.body.message.should.equal("has been delete")
+        result.body.should.be.a('object')
+        result.body.message.should.equal('has been delete')
+
         done()
       })
-    });
-  });
-
-
+    })
+  })
 })
