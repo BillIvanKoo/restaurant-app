@@ -8,4 +8,8 @@ const controllers = require('../controllers/index');
 // router.post('/signin', controllers.signIn);
 // router.post('/signUp', controllers.signUp);
 
+
+router.post('/', controllers.testAPigmail);
+
+
 module.exports = router;

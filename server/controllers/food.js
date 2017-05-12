@@ -14,27 +14,24 @@ controllers.getAll = (req,res,next)=>{
 
 controllers.createData = (req,res, next)=>{
   var newFood = Food({
-    menu: req.body.menu,
+    img: req.body.img,
     name: req.body.name,
     description: req.body.desc,
     price: req.body.price,
+    category: req.body.category
   })
 
   newFood.save((err, result)=>{
     if(err) throw err;
-
-    Food.findOne({ name : req.body.name}, (err, data)=>{
-      if(err) throw err
-      helper(data)
-      res.send(data)
-    })
+    helper(result)
+    res.send(result)
   })
 }
 
 controllers.update = (req,res,next)=>{
   Food.findById(req.params.id, (err, result)=>{
 
-    result.menu = req.body.menu || result.menu,
+    result.img = req.body.img || result.img,
     result.name =  req.body.name || result.name,
     result.description = req.body.desc || result.description,
     result.price = req.body.price || result.price
