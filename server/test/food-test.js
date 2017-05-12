@@ -12,11 +12,9 @@ describe('testing CRUD for Food', ()=>{
   //masukin data dummy
   beforeEach((done)=>{
     var newFood = new Food({
-      menu: 'Eat',
       name: 'Mozarella with Beef Bacon',
       description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
-      price: '200.000',
-      vote_up: 0
+      price: '200.000'
     })
 
     newFood.save((err, food)=>{
@@ -62,7 +60,7 @@ describe('testing CRUD for Food', ()=>{
   })
 
   //Update data Food
-  describe('PUT - create Food', ()=>{
+  describe('PUT - update Food', ()=>{
     it('should update a food', (done)=>{
       chai.request(server)
       .put('/foods/'+newFood_id)

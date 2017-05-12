@@ -12,6 +12,6 @@ router.post('/signup', controllers.signUp); // signUp
 
 
 router.put('/:id', controllers.update); // update
-router.delete('/:id', controllers.delete); // create
+router.delete('/:id', controllers.delete); // delete
 
 module.exports = router;

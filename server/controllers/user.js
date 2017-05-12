@@ -9,7 +9,7 @@ let controllers = {}
 
 controllers.getAll = (req,res,next)=>{
   User.find({}, (err, users)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send(users)
   })
 }
@@ -39,7 +39,7 @@ controllers.signUp = (req,res, next)=>{
   })
 
   newUser.save((err, result)=>{
-    if(err) throw err;
+    if(err) res.send(err);
     res.send(result)
   })
 }
@@ -55,7 +55,7 @@ controllers.update = (req,res,next)=>{
     result.role = req.body.role || result.role
 
     result.save((err, data)=>{
-      if(err) throw err
+      if(err) res.send(err)
       res.send(data)
     })
   })
@@ -63,8 +63,8 @@ controllers.update = (req,res,next)=>{
 
 controllers.delete = (req,res,next)=>{
   User.findByIdAndRemove(req.params.id, (err, data)=>{
-    if(err) throw err
-    res.send({message: 'has been delete'})
+    if(err) res.send(err)
+    res.send(data)
   })
 }
 

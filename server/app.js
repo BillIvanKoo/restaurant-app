@@ -18,8 +18,8 @@ var foods = require('./routes/foods');
 //connection to MongoDB
 const mongoose = require('mongoose');
 const db_config = {
-  development: 'mongodb://localhost/eatlah',
-  test: 'mongodb://localhost/eatlah-test'
+  development: 'mongodb://localhost/restaurant',
+  test: 'mongodb://localhost/restaurant-test'
 }
 
 passport.use(new localStrategy(
