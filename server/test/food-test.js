@@ -8,17 +8,14 @@ const server = require('../app')
 
 describe('testing CRUD for Food', ()=>{
   var newFood_id = ''
-
-  //masukin data dummy
   beforeEach((done)=>{
     var newFood = new Food({
+      img:'Eat',
       name: 'Mozarella with Beef Bacon',
       description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
       price: '200.000'
     })
-
     newFood.save((err, food)=>{
-      // console.log(food);
       newFood_id = food._id
       done()
     })
@@ -30,7 +27,6 @@ describe('testing CRUD for Food', ()=>{
     })
   })
 
-  //get data all Food
   describe('Get - all Foods', ()=>{
     it('should get all food', (done)=>{
       chai.request(server)
@@ -39,54 +35,65 @@ describe('testing CRUD for Food', ()=>{
         result.should.have.status(200)
         result.body.should.be.a('array')
         result.body.length.should.equal(1)
-
+        result.body[0].img.should.equal('Eat')
+        result.body[0].description.should.equal('Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang')
+        result.body[0].vote_up.should.be.a('number')
         done()
       })
     })
   })
 
-  //create data with POST
   describe('Post - create Food', ()=>{
     it('should add a food', (done)=>{
       chai.request(server)
       .post('/foods')
+      .send({
+        img: 'Food',
+        name: 'Mozarella with Beef Bacon',
+        description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
+        price: '200.000',
+        vote_up: 0
+      })
       .end((err, result)=>{
         result.should.have.status(200)
         result.body.should.be.a('object')
-
+        result.body.img.should.equal('Food')
+        result.body.name.should.be.an('string')
+        result.body.vote_up.should.be.an('number')
         done()
       })
     })
   })
 
-  //Update data Food
-  describe('PUT - update Food', ()=>{
+
+  describe('PUT - Update Food', ()=>{
     it('should update a food', (done)=>{
       chai.request(server)
       .put('/foods/'+newFood_id)
       .send({
-        name: 'Keju berlapis Mozarella'
+        img: 'Food',
+        name: 'Keju Berlapis Mozarella',
+        description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
+        price: '200.000',
+        vote_up: 0
       })
       .end((err, result)=>{
         result.should.have.status(200)
         result.body.should.be.a('object')
-        result.body.message.should.not.equal('not been update')
-
+        result.body.message.should.equal('has been update')
         done()
       })
     })
   })
 
-  //delete data Food
   describe('delete - Food', ()=>{
     it('should remove a food', (done)=>{
       chai.request(server)
       .delete('/foods/'+newFood_id)
       .end((err, result)=>{
         result.should.have.status(200)
-        result.body.should.be.a('object')
+        result.body.should.be.an('object')
         result.body.message.should.equal('has been delete')
-
         done()
       })
     })

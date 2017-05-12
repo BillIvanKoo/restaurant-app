@@ -35,7 +35,7 @@ controllers.createData = (req,res, next)=>{
 
 controllers.update = (req,res,next)=>{
   Food.findById(req.params.id, (err, result)=>{
-    result.img =  req.body.img || result.img,
+    result.img = req.body.img || result.img,
     result.name =  req.body.name || result.name,
     result.description = req.body.description || result.description,
     result.price = req.body.price || result.price
@@ -43,7 +43,7 @@ controllers.update = (req,res,next)=>{
 
     result.save((err, data)=>{
       if(err) res.send(err)
-      res.send(data)
+      res.send({message: 'has been update'})
     })
   })
 }
@@ -51,7 +51,7 @@ controllers.update = (req,res,next)=>{
 controllers.delete = (req,res,next)=>{
   Food.findByIdAndRemove(req.params.id, (err, data)=>{
     if(err) res.send(err)
-    res.send(data)
+    res.send({message: 'has been delete'})
   })
 }
 
