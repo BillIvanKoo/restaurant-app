@@ -7,7 +7,7 @@ let controllers = {}
 
 controllers.getAll = (req,res,next)=>{
   Food.find({}, (err, foods)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send(foods)
   })
 }
@@ -22,7 +22,7 @@ controllers.createData = (req,res, next)=>{
   })
 
   newFood.save((err, result)=>{
-    if(err) throw err;
+    if(err) res.send(err)
     helper(result)
     res.send(result)
   })
@@ -38,7 +38,7 @@ controllers.update = (req,res,next)=>{
     result.vote_up = req.body.vote_up || result.vote_up
 
     result.save((err, data)=>{
-      if(err) throw err
+      if(err) res.send(err)
       res.send({message: 'has been update'})
     })
   })
@@ -46,7 +46,7 @@ controllers.update = (req,res,next)=>{
 
 controllers.delete = (req,res,next)=>{
   Food.findByIdAndRemove(req.params.id, (err, data)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send({message: 'has been delete'})
   })
 }
