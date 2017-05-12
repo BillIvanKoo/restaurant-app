@@ -31,11 +31,12 @@ controllers.signIn = (req,res,next)=>{
 }
 
 controllers.signUp = (req,res, next)=>{
+  var role_signup = req.body.role == 'admin' ? 'admin' : 'member'
   var newUser = User({
     username: req.body.username,
     password: passwordHash.generate(req.body.password),
     email: req.body.email,
-    role: req.body.role
+    role: role_signup
   })
 
   newUser.save((err, result)=>{
