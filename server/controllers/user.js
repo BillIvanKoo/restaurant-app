@@ -23,7 +23,7 @@ controllers.signIn = (req,res,next)=>{
       username : obj.username,
       email: obj.email,
       role : obj.role
-    },process.env.SECRET_TOKEN,{
+    },process.env.SECRET,{
       expiresIn : '1h'
     })
     res.send({token: token})
