@@ -4,9 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// const passport = require('passport');
-// const localStrategy = require('passport-local');
-// const cors = require('cors');
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const cors = require('cors');
+const passwordHash = require('password-hash');
+
+const User = require('./models/user');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -19,8 +22,18 @@ const db_config = {
   test: 'mongodb://localhost/eatlah-test'
 }
 
-
-
+passport.use(new localStrategy(
+  function(username, password, done){
+  User.findOne({username : username}, (err, user)=>{
+    if(!user){
+      return done(null, { message:'Username Not Found You Must Register' })
+    }
+    if(!passwordHash.verify(password, user.password)){
+      return done(null, { message: 'Your Password is wrong' })
+    }
+    return done(null, user)
+  })
+}))
 
 var app = express();
 const app_env = app.settings.env
@@ -29,8 +42,8 @@ mongoose.connect(db_config[app_env],(err, res)=>{
   console.log(`Connected to Database ${db_config[app_env]}`);
 });
 
-// app.use(cors())
-// app.use(passport.initialize());
+app.use(cors())
+app.use(passport.initialize());
 
 
 // view engine setup
@@ -47,8 +60,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/foods', foods);
-
-// app.use('/foods', foods)
+app.use('/foods', foods)
 
 module.exports = app;
