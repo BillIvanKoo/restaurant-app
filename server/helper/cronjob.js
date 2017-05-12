@@ -104,8 +104,6 @@ let helper = (params)=>{
   var hours = create.getHours()
   console.log('minute -- ',minute);
   console.log('hour -- ', hours);
-  // console.log('date -- ', date);
-  // console.log('month -- ', month);
 
     // second minute hourse date month week
     new CronJob(`00 ${minute} ${hours} ${date} ${month} *`, function () {

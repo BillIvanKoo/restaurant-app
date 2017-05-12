@@ -37,6 +37,7 @@ describe('testing CRUD for Food', ()=>{
         result.body.should.be.a('array')
         result.body.length.should.equal(1)
         result.body[0].img.should.equal('Eat')
+        result.body[0].description.should.equal('Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang')
         result.body[0].vote_up.should.be.a('number')
         done()
       })
@@ -70,7 +71,11 @@ describe('testing CRUD for Food', ()=>{
       chai.request(server)
       .put('/foods/'+newFood_id)
       .send({
-        name: 'Keju berlapis Mozarella'
+        img: 'Food',
+        name: 'Keju Berlapis Mozarella',
+        description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
+        price: '200.000',
+        vote_up: 0
       })
       .end((err, result)=>{
         result.should.have.status(200)

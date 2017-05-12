@@ -23,7 +23,7 @@ controllers.signIn = (req,res,next)=>{
       username : obj.username,
       email: obj.email,
       role : obj.role
-    },process.env.SECRET,{
+    },process.env.SECRET_TOKEN,{
       expiresIn : '1h'
     })
     res.send({token: token})
@@ -38,10 +38,13 @@ controllers.signUp = (req,res, next)=>{
     email: req.body.email,
     role: role_signup
   })
-
   newUser.save((err, result)=>{
-    if(err) res.send(err)
-    res.send(result)
+    if(err){
+      res.send(err)
+    }
+      else{
+    res.send(result);
+  }
   })
 }
 
@@ -52,7 +55,6 @@ controllers.update = (req,res,next)=>{
     result.password =  newPassword || result.password,
     result.email = req.body.email || result.email,
     result.role = req.body.role || result.role
-
     result.save((err, data)=>{
       if(err) res.send(err)
       res.send(data)

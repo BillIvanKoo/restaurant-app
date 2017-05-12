@@ -47,7 +47,7 @@ describe('User CRUD testing', ()=>{
 
   //START POST USERS SIGNUP
   describe('Post - create User', ()=>{
-    it('should add a user', (done)=>{
+    it('should add a user with all data true', (done)=>{
       chai.request(server)
       .post('/users/signup')
       .send({
@@ -65,6 +65,24 @@ describe('User CRUD testing', ()=>{
       })
     })
   })
+
+  describe('Post - create User with email error', ()=>{
+    it('should add a user with email validation false', (done)=>{
+      chai.request(server)
+      .post('/users/signup')
+      .send({
+        username: 'bambang',
+        password: 'bambang',
+        email: 'bambang@gmail',
+        role: 'member'
+      })
+      .end(function(err, result){
+        result.should.have.status(200)
+        result.body.message.should.equal('User validation failed');
+        done();
+      })
+    })
+  })
   //END POST USERS SIGNUP
 
   //START PUT  USERS
@@ -73,12 +91,33 @@ describe('User CRUD testing', ()=>{
       chai.request(server)
       .put('/users/'+newUser_id)
       .send({
-        username: "admin"
+        username: "admin",
+        password: "admin",
+        email: "admin@gmail.com"
       })
       .end( (err, result) => {
         result.should.have.status(200)
         result.body.should.be.an('object')
         result.body.username.should.equal("admin")
+        done()
+      })
+
+    });
+  });
+
+  describe('PUT - edit User', () => {
+    it('should update specific field in the user with email validation error', (done) => {
+      chai.request(server)
+      .put('/users/'+newUser_id)
+      .send({
+        username: "admin",
+        password: "admin",
+        email: "admin.com"
+      })
+      .end( (err, result) => {
+        result.should.have.status(200)
+        result.body.should.be.an('object')
+        result.body.message.should.equal('User validation failed')
         done()
       })
 
@@ -92,6 +131,7 @@ describe('User CRUD testing', ()=>{
       chai.request(server)
       .delete('/users/' + newUser_id)
       .end( (err, result) => {
+        console.log(result.body)
         result.should.have.status(200)
         result.body.should.be.an('object')
         result.body.message.should.equal("has been delete")
