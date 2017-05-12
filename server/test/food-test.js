@@ -8,17 +8,14 @@ const server = require('../app')
 
 describe('testing CRUD for Food', ()=>{
   var newFood_id = ''
-
-  //masukin data dummy
   beforeEach((done)=>{
     var newFood = new Food({
-      menu: 'Eat',
+      img: 'Eat',
       name: 'Mozarella with Beef Bacon',
       description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
       price: '200.000',
       vote_up: 0
     })
-
     newFood.save((err, food)=>{
       newFood_id = food._id
       done()
@@ -39,7 +36,7 @@ describe('testing CRUD for Food', ()=>{
         result.should.have.status(200)
         result.body.should.be.a('array')
         result.body.length.should.equal(1)
-        result.body[0].menu.should.equal('Food')
+        result.body[0].img.should.equal('Eat')
         result.body[0].vote_up.should.be.a('number')
         done()
       })
@@ -51,7 +48,7 @@ describe('testing CRUD for Food', ()=>{
       chai.request(server)
       .post('/foods')
       .send({
-        menu: 'Food',
+        img: 'Food',
         name: 'Mozarella with Beef Bacon',
         description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
         price: '200.000',
@@ -60,12 +57,9 @@ describe('testing CRUD for Food', ()=>{
       .end((err, result)=>{
         result.should.have.status(200)
         result.body.should.be.a('object')
-        result.body.menu.should.equal('Food')
+        result.body.img.should.equal('Food')
         result.body.name.should.be.an('string')
         result.body.vote_up.should.be.an('number')
-      .end((err, result)=>{
-        result.should.have.status(200)
-        result.body.should.be.a('object')
         done()
       })
     })

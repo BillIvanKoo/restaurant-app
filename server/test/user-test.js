@@ -110,10 +110,9 @@ describe('User CRUD testing', ()=>{
         password : 'gamgam'
       })
       .end( (err, result) => {
-        console.log(result)
-        // result.should.have.status(200)
-        // result.body.should.be.an('object')
-        // result.body.token.should.be.an('string')
+        result.should.have.status(200)
+        result.body.should.be.an('object')
+        result.body.token.should.be.an('string')
         done()
       })
     });
