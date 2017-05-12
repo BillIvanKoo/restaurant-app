@@ -10,11 +10,10 @@ describe('testing CRUD for Food', ()=>{
   var newFood_id = ''
   beforeEach((done)=>{
     var newFood = new Food({
-      img: 'Eat',
+      img:'Eat',
       name: 'Mozarella with Beef Bacon',
       description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
-      price: '200.000',
-      vote_up: 0
+      price: '200.000'
     })
     newFood.save((err, food)=>{
       newFood_id = food._id
@@ -65,6 +64,7 @@ describe('testing CRUD for Food', ()=>{
       })
     })
   })
+
 
   describe('PUT - Update Food', ()=>{
     it('should update a food', (done)=>{

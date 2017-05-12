@@ -39,12 +39,9 @@ controllers.signUp = (req,res, next)=>{
     role: role_signup
   })
   newUser.save((err, result)=>{
-    if(err){
-      res.send(err)
-    }
-      else{
-    res.send(result);
-  }
+    if(err) res.send(err);
+    res.send(result)
+
   })
 }
 

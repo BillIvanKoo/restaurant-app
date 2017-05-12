@@ -1,6 +1,6 @@
 <template>
-    <div class="viewport">
-  <md-toolbar class="md-transparent">
+    <div>
+  <md-toolbar class="md-transparent viewport">
     <md-button class="md-icon-button" @click.native="toggleLeftSidenav">
       <md-icon>menu</md-icon>
     </md-button>
@@ -9,7 +9,7 @@
   </router-link>
   </md-toolbar>
 
-  <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
+  <md-sidenav class="md-left sideport" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
     <md-toolbar class="md-transparent">
       <div class="md-toolbar-container">
         <h3 class="md-title">Options</h3>
@@ -58,10 +58,11 @@
     position: fixed;
     width: 100%;
     top: 0%;
-    height: 100%;
-    z-index: 1;
   }
   h2 {
     color: white;
+  }
+  .sideport{
+    top: 0%
   }
 </style>

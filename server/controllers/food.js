@@ -16,15 +16,20 @@ controllers.createData = (req,res, next)=>{
   var newFood = Food({
     img: req.body.img,
     name: req.body.name,
-    description: req.body.desc,
+    description: req.body.description,
     price: req.body.price,
-    category: req.body.category
+    category: req.body.category,
+    created_at: new Date()
   })
 
   newFood.save((err, result)=>{
-    if(err) res.send(err)
-    helper(result)
-    res.send(result)
+    if(err) res.send(err);
+
+    Food.findOne({ name : req.body.name}, (err, data)=>{
+      if(err) res.send(err)
+      helper(data)
+      res.send(data)
+    })
   })
 }
 
@@ -32,9 +37,9 @@ controllers.update = (req,res,next)=>{
   Food.findById(req.params.id, (err, result)=>{
     result.img = req.body.img || result.img,
     result.name =  req.body.name || result.name,
-    result.description = req.body.desc || result.description,
+    result.description = req.body.description || result.description,
     result.price = req.body.price || result.price
-    result.vote_up = req.body.vote_up || result.vote_up
+    result.category = req.body.category || result.category
 
     result.save((err, data)=>{
       if(err) res.send(err)
