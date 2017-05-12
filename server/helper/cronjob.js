@@ -20,29 +20,30 @@ let helper = (params)=>{
   // console.log('date -- ', date);
   // console.log('month -- ', month);
 
-  User.find({role : 'member'},(err, users)=>{
-    var emails = []
-    users.map((user)=>{
-      emails.push(user.email)
-    })
-
-    var conversion = emails.toString()
-
-    queue.create('email', {
-      subject : `New Promo @EATLAH`,
-      message : `Dapatkan potong 50% untuk menu baru kita : ${params.name} hanya di EATLAH, tunjukan email ini di kasir kami.  #selama masa promo`,
-      to: conversion
-    }).save((err)=>{
-      if(err) throw err
-    })
-
     // second minute hourse date month week
     new CronJob(`00 ${minute} ${hours} ${date} ${month} *`, function () {
-      queue.process('email', function (job, done) {
-        email(job.data, done)
+      User.find({role : 'member'},(err, users)=>{
+        var emails = []
+        users.map((user)=>{
+          emails.push(user.email)
+        })
+
+        var conversion = emails.toString()
+
+        queue.create('email', {
+          subject : `New Promo @EATLAH`,
+          message : `Dapatkan potong 50% untuk menu baru kita : ${params.name} hanya di EATLAH, tunjukan email ini di kasir kami.  #selama masa promo`,
+          to: conversion
+        }).save((err)=>{
+          if(err) throw err
+        })
       })
-    }, null, true, 'Asia/Jakarta')
-  })
+
+      queue.process('email', function (job, done) {
+          email(job.data, done)
+        })
+      }, null, true, 'Asia/Jakarta')
+
   function email(paramsJob, done) {
     console.log('di email -- ',paramsJob);
 
@@ -85,7 +86,5 @@ let helper = (params)=>{
     });
   }
 }
-
-
 
 module.exports = helper;
