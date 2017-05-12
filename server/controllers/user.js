@@ -9,7 +9,7 @@ let controllers = {}
 
 controllers.getAll = (req,res,next)=>{
   User.find({}, (err, users)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send(users)
   })
 }
@@ -31,31 +31,30 @@ controllers.signIn = (req,res,next)=>{
 }
 
 controllers.signUp = (req,res, next)=>{
-  var newUser = new User({
+  var role_signup = req.body.role == 'admin' ? 'admin' : 'member'
+  var newUser = User({
     username: req.body.username,
     password: passwordHash.generate(req.body.password),
     email: req.body.email,
-    role: req.body.role
+    role: role_signup
   })
 
   newUser.save((err, result)=>{
-    if(err) res.send(err);
+    if(err) res.send(err)
     res.send(result)
   })
 }
 
 controllers.update = (req,res,next)=>{
   var newPassword = req.body.password ? passwordHash.generate(req.body.password) : null
-
   User.findById(req.params.id, (err, result)=>{
-
     result.username = req.body.username || result.username,
     result.password =  newPassword || result.password,
     result.email = req.body.email || result.email,
     result.role = req.body.role || result.role
 
     result.save((err, data)=>{
-      if(err) throw err
+      if(err) res.send(err)
       res.send(data)
     })
   })
@@ -63,7 +62,7 @@ controllers.update = (req,res,next)=>{
 
 controllers.delete = (req,res,next)=>{
   User.findByIdAndRemove(req.params.id, (err, data)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send({message: 'has been delete'})
   })
 }

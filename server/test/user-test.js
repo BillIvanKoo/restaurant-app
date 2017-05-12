@@ -119,6 +119,5 @@ describe('User CRUD testing', ()=>{
     });
   })
   //END SIGNIN USERS
-  
 })
 

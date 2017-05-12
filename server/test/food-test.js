@@ -9,10 +9,10 @@ const server = require('../app')
 describe('testing CRUD for Food', ()=>{
   var newFood_id = ''
 
-  //START DATA DUMMY
+  //masukin data dummy
   beforeEach((done)=>{
     var newFood = new Food({
-      menu: 'Food',
+      menu: 'Eat',
       name: 'Mozarella with Beef Bacon',
       description: 'Salah satu makanan favorite yang ada di eatlah dengan topping mozarella dan daging sapi yang di panggang',
       price: '200.000',
@@ -30,10 +30,7 @@ describe('testing CRUD for Food', ()=>{
       done()
     })
   })
-  // END DATA DUMMY
 
-
-  // START GET DATA ALL FOOD
   describe('Get - all Foods', ()=>{
     it('should get all food', (done)=>{
       chai.request(server)
@@ -49,9 +46,6 @@ describe('testing CRUD for Food', ()=>{
     })
   })
 
-  //END GET DATA ALL FOOD
-
-  //START POST DATA FOODS
   describe('Post - create Food', ()=>{
     it('should add a food', (done)=>{
       chai.request(server)
@@ -69,13 +63,14 @@ describe('testing CRUD for Food', ()=>{
         result.body.menu.should.equal('Food')
         result.body.name.should.be.an('string')
         result.body.vote_up.should.be.an('number')
+      .end((err, result)=>{
+        result.should.have.status(200)
+        result.body.should.be.a('object')
         done()
       })
     })
   })
-  //END POST DATA FOODS
 
-  //START UPDATE DATA FOODS
   describe('PUT - Update Food', ()=>{
     it('should update a food', (done)=>{
       chai.request(server)
@@ -91,9 +86,7 @@ describe('testing CRUD for Food', ()=>{
       })
     })
   })
-  //END UPDATE DATA FOODS
 
-  //START DELETE DATA FOODS
   describe('delete - Food', ()=>{
     it('should remove a food', (done)=>{
       chai.request(server)
@@ -106,6 +99,4 @@ describe('testing CRUD for Food', ()=>{
       })
     })
   })
-  //END DELETE DATA FOODS
-
 })

@@ -7,21 +7,22 @@ let controllers = {}
 
 controllers.getAll = (req,res,next)=>{
   Food.find({}, (err, foods)=>{
-    if(err) throw err
+    if(err) res.send(err)
     res.send(foods)
   })
 }
 
 controllers.createData = (req,res, next)=>{
   var newFood = Food({
-    menu: req.body.menu,
+    img: req.body.img,
     name: req.body.name,
-    description: req.body.description,
-    price: req.body.price
+    description: req.body.desc,
+    price: req.body.price,
+    category: req.body.category
   })
 
   newFood.save((err, result)=>{
-    if(err) res.send(err);
+    if(err) res.send(err)
     helper(result)
     res.send(result)
   })
@@ -29,8 +30,7 @@ controllers.createData = (req,res, next)=>{
 
 controllers.update = (req,res,next)=>{
   Food.findById(req.params.id, (err, result)=>{
-
-    result.menu = req.body.menu || result.menu,
+    result.img = req.body.img || result.img,
     result.name =  req.body.name || result.name,
     result.description = req.body.desc || result.description,
     result.price = req.body.price || result.price
