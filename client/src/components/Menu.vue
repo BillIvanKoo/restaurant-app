@@ -1,17 +1,18 @@
 <template>
   <div class="menudiv">
-    <menu-edit v-if="admin===true" :foods="menu[0]" class="menu" @deleteFood="getter" @createFood="getter"></menu-edit>
+    
+    <menu-edit v-if="admin===true" :foods="menu[0]" class="menu" v-on:deleteFood="getter" @createFood="getter" @updateFood="getter"></menu-edit>
     <md-tabs md-right class="menu md-transparent" v-else>
       <md-tab id="movies" md-label="Starters">
-        <starters v-if="menu.length === 1" :start="menu[0]"></starters>
+        <starters v-if="menu[0]" :start="menu[0]"></starters>
       </md-tab>
       
       <md-tab id="music" md-label="Main Course">
-        <main-course v-if="menu.length === 1" :main="menu[0]"></main-course>
+        <main-course v-if="menu[0]" :main="menu[0]"></main-course>
       </md-tab>
       
       <md-tab id="books" md-label="Desserts">
-        <desserts v-if="menu.length === 1" :dessert="menu[0]"></desserts>
+        <desserts v-if="menu[0]" :dessert="menu[0]"></desserts>
       </md-tab>
     </md-tabs>
   </div>
@@ -45,11 +46,18 @@ var db = firebaseApp.database()
     data() {
       return {
         menu:[],
-        admin: true,
+        // mains:[],
+        // dessertss:[],
+        // startss:[],
+        admin: false,
       }
     },
-    created: function() {
-      var menu = this.menu
+    created () {
+      let menu=this.menu;
+      // let mains =  this.mains;
+      // let dessertss = this.dessertss;
+      // let startss = this.startss
+      let that = this;
       db.ref('/menu').on('value', function(snapshot){
         menu.shift()
         menu.push(snapshot.val());
@@ -62,17 +70,29 @@ var db = firebaseApp.database()
       }).catch((err)=>{
         console.log(err);
       });
-      
+      let token = localStorage.getItem('token')
+      if(token!==null){
+        Vue.axios.post('http://localhost:3000/users/'+token).then((redeleteFoodsponse)=>{
+          if(response.data.role === "admin"){
+            that.admin = true
+          }
+          console.log(response)
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
     },
     beforeDestroy: function(){
       db.ref('/menu').set(null)
     },
     methods: {
       getter: function(){
+        let that = this
         Vue.axios.get('http://localhost:3000/foods').then((response)=>{
           db.ref('/menu').set(
             response.data
           )
+          
         }).catch((err)=>{
           console.log(err);
         });

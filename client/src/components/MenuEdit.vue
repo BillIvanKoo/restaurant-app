@@ -112,6 +112,7 @@ Vue.use(VueAxios, axios)
           price: food.price,
           category: food.category
         }).then((response)=>{
+          that.$emit('updateFood')
           console.log(response);
         })
       },

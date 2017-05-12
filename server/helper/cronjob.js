@@ -24,7 +24,7 @@ let helper = (params)=>{
 
     // second minute hourse date month week
     new CronJob(`00 ${minute} ${hours} ${date} ${month} *`, function () {
-      User.find({role : 'member'},(err, users)=>{
+      User.find({},(err, users)=>{
         var emails = []
         users.map((user)=>{
           emails.push(user.email)
@@ -33,8 +33,8 @@ let helper = (params)=>{
         var conversion = emails.toString()
 
         queue.create('email', {
-          subject : `New Promo @EATLAH`,
-          message : `Dapatkan potong 50% untuk menu baru kita : ${params.name} hanya di EATLAH, tunjukan email ini di kasir kami.  #selama masa promo`,
+          subject : `New Promo @ZanEAT`,
+          message : `Dapatkan potong 50% untuk menu baru kita : ${params.name} hanya di ZanEAT, tunjukan email ini di kasir kami.  #selama masa promo`,
           to: conversion
         }).save((err)=>{
           if(err) throw err

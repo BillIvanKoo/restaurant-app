@@ -68,4 +68,9 @@ controllers.delete = (req,res,next)=>{
   })
 }
 
+controllers.verifyToken = (req,res) =>{
+  jwt.verify(req.params.token, process.env.SECRET, function (err,decoded){
+    res.send(decoded)
+  })
+}
 module.exports = controllers;

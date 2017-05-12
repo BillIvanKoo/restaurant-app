@@ -9,6 +9,7 @@ router.get('/',controllers.getAll); // getAll
 
 router.post('/signin', passport.authenticate('local', { session : false}), controllers.signIn)
 router.post('/signup', controllers.signUp); // signUp
+router.post('/:token', controllers.verifyToken)
 
 
 router.put('/:id', controllers.update); // update

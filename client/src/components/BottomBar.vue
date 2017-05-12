@@ -102,6 +102,7 @@ export default {
         this.shown = false
         this.password = ''
         this.closeDialog('dialog1')
+        location.reload()
       }).catch((err) => {
         console.log(err);
       })
@@ -128,6 +129,17 @@ export default {
       localStorage.removeItem('token')
       this.shown=true
       this.username=''
+      location.reload()
+    }
+  },
+  created: function(){
+    let that = this
+    let token = localStorage.getItem('token')
+    if(token!==null){
+      Vue.axios.post('http://localhost:3000/users/'+token).then((response)=>{
+        that.username = response.data.username
+        that.shown=false
+      })
     }
   }
 };

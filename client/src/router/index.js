@@ -4,6 +4,7 @@ import Menu from '@/components/Menu'
 import Home from '@/components/Home'
 import About from '@/components/About'
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -14,7 +15,7 @@ export default new Router({
     },
     {
       path: '/menu',
-      component: Menu
+      component: Menu,
     },
     {
       path: '/about',

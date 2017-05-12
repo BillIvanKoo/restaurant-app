@@ -26,6 +26,15 @@
       return {
         foods: []
       }
+    },
+    updated : function(){
+      this.foods=[];
+      for(let i=0;i<this.main.length;i++){
+        if(this.main[i].category === "Main Course"){
+          this.foods.push(this.main[i])
+        }
+        console.log(this.foods)
+      }
     }
   }
 </script>
