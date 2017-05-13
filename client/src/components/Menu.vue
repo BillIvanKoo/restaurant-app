@@ -72,7 +72,7 @@ var db = firebaseApp.database()
       });
       let token = localStorage.getItem('token')
       if(token!==null){
-        Vue.axios.post('http://localhost:3000/users/'+token).then((redeleteFoodsponse)=>{
+        Vue.axios.post('http://localhost:3000/users/'+token).then((response)=>{
           if(response.data.role === "admin"){
             that.admin = true
           }
